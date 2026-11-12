@@ -2,6 +2,8 @@
 
 An interactive 3D observatory and time tracker that maps real-time astronomy, Moon phases, and Hebrew calendar cycles onto the Tree of Life (*Etz Chaim*) and *Sefer Yetzirah* — translating ancient Jewish mysticism into plain, practical daily guidance.
 
+**Live App:** [https://awerds.github.io/olam/](https://awerds.github.io/olam/)
+
 Built 100% client-side with **Three.js / React Three Fiber**, **`astronomy-engine`** (VSOP87/JPL ephemeris), **`@hebcal/core`**, and **Radix UI**.
 
 ## Esoteric & Astronomical Systems Included
@@ -21,12 +23,16 @@ Built 100% client-side with **Three.js / React Three Fiber**, **`astronomy-engin
 - **4D Time-Helix Walk Mode:**
   - Unfolds the circular orbits along the Z-axis into a 3D spiral corridor of New Moons (*Rosh Chodesh*) and Full Moons (*15th of the Hebrew Month*).
 
-## Local Development & Zero-Cost GitHub Pages Deployment
+## Local Development & GitHub Pages Deployment
 
 ```bash
 npm install
 npm run dev
 ```
 
-Pushing to the `main` branch on GitHub automatically builds and deploys the static app to **GitHub Pages** via [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
+To build and publish updates directly to **GitHub Pages** (`gh-pages` branch):
+
+```bash
+npm run deploy
+```
 
