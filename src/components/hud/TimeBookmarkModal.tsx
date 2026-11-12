@@ -98,18 +98,15 @@ export const TimeBookmarkModal: React.FC<TimeBookmarkModalProps> = ({
       ref={dialogRef}
       {...({ closedby: 'any' } as React.DialogHTMLAttributes<HTMLDialogElement>)}
       aria-labelledby={titleId}
-      className="olam-panel mixed-script-container m-auto w-[34rem] max-w-[94vw] rounded-2xl backdrop-blur-2xl p-0 overflow-hidden"
+      className="olam-panel mixed-script-container m-auto w-[34rem] max-w-[94vw] rounded-2xl border backdrop-blur-2xl shadow-2xl p-0 overflow-hidden"
     >
       <div className="p-5 space-y-4">
-        <div
-          className="flex items-center justify-between border-b pb-3"
-          style={{ borderColor: 'var(--olam-border)' }}
-        >
+        <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
           <div className="flex items-center gap-2">
-            <Bookmark className="w-4 h-4 text-[var(--olam-accent-gold)]" />
+            <Bookmark className="w-4 h-4 olam-accent" />
             <h2
               id={titleId}
-              className="display-title text-sm font-semibold text-[var(--olam-text-primary)]"
+              className="display-title text-sm font-semibold olam-text-primary"
             >
               Saved Cosmic Moments
             </h2>
@@ -118,7 +115,7 @@ export const TimeBookmarkModal: React.FC<TimeBookmarkModalProps> = ({
             type="button"
             onClick={() => dialogRef.current?.close()}
             aria-label="Close Tracker Dialog"
-            className="olam-pill p-1.5 rounded-lg text-[var(--olam-text-muted)] hover:text-[var(--olam-text-primary)] cursor-pointer transition-colors"
+            className="olam-pill p-1.5 rounded-lg border olam-text-muted hover:olam-text-primary cursor-pointer transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -126,14 +123,14 @@ export const TimeBookmarkModal: React.FC<TimeBookmarkModalProps> = ({
 
         <form
           onSubmit={handleSubmit}
-          className="olam-card p-3.5 rounded-xl space-y-2.5"
+          className="olam-card p-3.5 rounded-xl border space-y-2.5"
         >
           <div className="flex items-center justify-between text-xs">
-            <span className="text-[var(--olam-text-primary)] font-medium">
+            <span className="olam-text-primary font-medium">
               Active: {hebrewTime.hebrewDay} {hebrewTime.hebrewMonthName}{' '}
               {hebrewTime.hebrewYear} ({hebrewTime.fullHebrewString})
             </span>
-            <span className="mono-telemetry text-xs text-[var(--olam-text-muted)]">
+            <span className="mono-telemetry text-xs olam-text-muted">
               {cosmic.lunar.phaseNameTranslit} •{' '}
               {hebrewTime.planetaryHours.current.planet.translit}
             </span>
@@ -145,14 +142,14 @@ export const TimeBookmarkModal: React.FC<TimeBookmarkModalProps> = ({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Moment title (e.g., Natal Gate, Rosh Chodesh)..."
-              className="olam-pill px-3 py-1.5 rounded-lg text-xs text-[var(--olam-text-primary)] placeholder:text-[var(--olam-text-muted)] focus:outline-none focus:border-[var(--olam-border-strong)]"
+              className="olam-pill px-3 py-1.5 rounded-lg border text-xs olam-text-primary placeholder:text-[var(--text-muted)] focus:outline-none"
             />
             <input
               type="text"
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder="Personal observation note..."
-              className="olam-pill px-3 py-1.5 rounded-lg text-xs text-[var(--olam-text-primary)] placeholder:text-[var(--olam-text-muted)] focus:outline-none focus:border-[var(--olam-border-strong)]"
+              className="olam-pill px-3 py-1.5 rounded-lg border text-xs olam-text-primary placeholder:text-[var(--text-muted)] focus:outline-none"
             />
           </div>
 
@@ -165,29 +162,29 @@ export const TimeBookmarkModal: React.FC<TimeBookmarkModalProps> = ({
         </form>
 
         <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
-          <div className="text-xs font-medium text-[var(--olam-text-muted)]">
+          <div className="text-xs font-medium olam-text-muted">
             Saved Alignments ({bookmarks.length})
           </div>
           {bookmarks.map((bm) => (
             <div
               key={bm.id}
-              className="olam-card p-3 rounded-xl flex items-center justify-between gap-3 transition-all"
+              className="olam-card p-3 rounded-xl border flex items-center justify-between gap-3 transition-all"
             >
               <div className="space-y-0.5 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-xs text-[var(--olam-text-primary)] truncate">
+                  <span className="font-semibold text-xs olam-text-primary truncate">
                     {bm.title}
                   </span>
-                  <span className="hebrew-glyph text-xs text-[var(--olam-accent-gold)]">
+                  <span className="hebrew-glyph text-xs olam-accent">
                     {bm.hebrewDateStr}
                   </span>
                 </div>
-                <div className="mono-telemetry text-xs text-[var(--olam-text-muted)]">
+                <div className="mono-telemetry text-xs olam-text-muted">
                   {new Date(bm.isoTimestamp).toLocaleString()} •{' '}
                   {bm.moonPhaseStr} • Hour of {bm.rulingPlanetStr}
                 </div>
                 {bm.note && (
-                  <p className="text-xs text-[var(--olam-text-secondary)]">{bm.note}</p>
+                  <p className="text-xs olam-text-secondary">{bm.note}</p>
                 )}
               </div>
 
@@ -198,7 +195,7 @@ export const TimeBookmarkModal: React.FC<TimeBookmarkModalProps> = ({
                     onJumpToBookmark(bm.isoTimestamp);
                     dialogRef.current?.close();
                   }}
-                  className="olam-pill px-2.5 py-1.5 rounded-lg text-xs font-medium text-[var(--olam-text-primary)] hover:border-[var(--olam-border-strong)] flex items-center gap-1 cursor-pointer transition-colors"
+                  className="olam-pill px-2.5 py-1.5 rounded-lg border text-xs font-medium olam-text-primary flex items-center gap-1 cursor-pointer transition-colors"
                 >
                   <Compass className="w-3 h-3" /> Jump
                 </button>
@@ -206,7 +203,7 @@ export const TimeBookmarkModal: React.FC<TimeBookmarkModalProps> = ({
                   type="button"
                   onClick={() => onDeleteBookmark(bm.id)}
                   aria-label={`Delete ${bm.title}`}
-                  className="p-1.5 rounded-lg bg-rose-500/10 border border-rose-400/20 text-rose-500 hover:bg-rose-500/25 cursor-pointer"
+                  className="p-1.5 rounded-lg bg-rose-500/10 border border-rose-400/30 text-rose-600 hover:bg-rose-500/20 cursor-pointer"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>

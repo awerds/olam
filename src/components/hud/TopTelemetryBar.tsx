@@ -9,8 +9,6 @@ import {
   Eye,
   SlidersHorizontal,
   GraduationCap,
-  Sun,
-  Moon,
 } from 'lucide-react';
 import type { CosmicSnapshot } from '../../engines/astronomy';
 import type { HebrewMysticalTime } from '../../engines/hebrewTime';
@@ -34,8 +32,6 @@ interface TopTelemetryBarProps {
   onToggleTour: () => void;
   bookmarksCount: number;
   onOpenBookmarks: () => void;
-  resolvedTheme: 'light' | 'dark';
-  onToggleTheme: () => void;
 }
 
 export const TopTelemetryBar: React.FC<TopTelemetryBarProps> = ({
@@ -55,8 +51,6 @@ export const TopTelemetryBar: React.FC<TopTelemetryBarProps> = ({
   onToggleTour,
   bookmarksCount,
   onOpenBookmarks,
-  resolvedTheme,
-  onToggleTheme,
 }) => {
   const currentHour = hebrewTime.planetaryHours.current;
   const hourGuide = PLANET_PRACTICAL_GUIDE[currentHour.planet.key];
@@ -156,35 +150,6 @@ export const TopTelemetryBar: React.FC<TopTelemetryBarProps> = ({
         >
           <Bookmark className="w-3.5 h-3.5 olam-accent" />
           <span className="hidden sm:inline">Saved ({bookmarksCount})</span>
-        </button>
-
-        {/* Two-State Light/Dark Mode Toggle (with System revert per dark-mode-toggle guide) */}
-        <button
-          type="button"
-          onClick={onToggleTheme}
-          aria-label={
-            resolvedTheme === 'dark'
-              ? 'Switch to light theme'
-              : 'Switch to dark theme'
-          }
-          title={
-            resolvedTheme === 'dark'
-              ? 'Switch to light theme'
-              : 'Switch to dark theme'
-          }
-          className="olam-pill flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-semibold cursor-pointer transition-all"
-        >
-          {resolvedTheme === 'dark' ? (
-            <>
-              <Sun className="w-3.5 h-3.5 olam-accent" />
-              <span className="hidden sm:inline">Light</span>
-            </>
-          ) : (
-            <>
-              <Moon className="w-3.5 h-3.5 olam-accent" />
-              <span className="hidden sm:inline">Dark</span>
-            </>
-          )}
         </button>
 
         <Popover.Root>

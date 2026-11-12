@@ -26,7 +26,6 @@ interface CosmicSceneProps {
   showCubeOfSpace: boolean;
   showAspects: boolean;
   showTeli: boolean;
-  resolvedTheme: 'light' | 'dark';
   selectedId: string | null;
   onSelectSefirah: (sefirah: SefirahData) => void;
   onSelectLetter: (letter: SeferYetzirahLetter) => void;
@@ -96,7 +95,6 @@ export const CosmicScene: React.FC<CosmicSceneProps> = ({
   showCubeOfSpace,
   showAspects,
   showTeli,
-  resolvedTheme,
   selectedId,
   onSelectSefirah,
   onSelectLetter,
@@ -105,52 +103,45 @@ export const CosmicScene: React.FC<CosmicSceneProps> = ({
   onSelectDate,
 }) => {
   const rulingHourPlanet = hebrewTime.planetaryHours.current.planet.key;
-  const isLight = resolvedTheme === 'light';
 
   return (
     <div
-      className="w-full h-full relative transition-colors duration-500"
+      className="w-full h-full relative"
       style={{
-        background: isLight
-          ? 'radial-gradient(circle at 50% 50%, #f7f5f0 0%, #eae5dc 58%, #ddd6c9 100%)'
-          : 'radial-gradient(circle at 45% 50%, #101426 0%, #070912 52%, #040509 100%)',
+        background:
+          'radial-gradient(circle at 52% 48%, #101426 0%, #070912 52%, #040509 100%)',
       }}
     >
       <Canvas
         camera={{ position: [0, 11.5, 21.5], fov: 46, near: 0.1, far: 200 }}
         gl={{ antialias: true, alpha: true }}
       >
-        <fog
-          attach="fog"
-          args={[isLight ? '#e6e1d6' : '#05060b', 32, 78]}
-        />
+        <fog attach="fog" args={['#05060b', 32, 78]} />
 
-        <ambientLight intensity={isLight ? 0.85 : 0.32} />
+        <ambientLight intensity={0.32} />
         <hemisphereLight
-          color={isLight ? '#ffffff' : '#e2e8f0'}
-          groundColor={isLight ? '#d6cfc2' : '#090c15'}
-          intensity={isLight ? 0.65 : 0.38}
+          color="#e2e8f0"
+          groundColor="#090c15"
+          intensity={0.38}
         />
 
         {/* Deep Starfield + Slow Meditative Sanctuary Dust */}
-        {!isLight && (
-          <Stars
-            radius={62}
-            depth={45}
-            count={2800}
-            factor={3.1}
-            saturation={0.15}
-            fade
-            speed={0.12}
-          />
-        )}
+        <Stars
+          radius={62}
+          depth={45}
+          count={2800}
+          factor={3.1}
+          saturation={0.15}
+          fade
+          speed={0.12}
+        />
         <Sparkles
           count={90}
           scale={28}
           size={1.4}
           speed={0.07}
-          opacity={isLight ? 0.25 : 0.32}
-          color={isLight ? '#9a6b16' : '#e5c687'}
+          opacity={0.32}
+          color="#e5c687"
         />
         <Sparkles
           count={60}

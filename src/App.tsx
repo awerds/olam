@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { CosmicScene, type CameraMode } from './components/canvas/CosmicScene';
 import { TopTelemetryBar } from './components/hud/TopTelemetryBar';
 import { ChronoScrubber } from './components/hud/ChronoScrubber';
@@ -15,7 +15,6 @@ import { computeCosmicSnapshot } from './engines/astronomy';
 import { computeHebrewMysticalTime } from './engines/hebrewTime';
 
 const STORAGE_KEY = 'merkavah_astrolabe_bookmarks_v1';
-const COLOR_SCHEME_KEY = 'color-scheme';
 
 const DEFAULT_BOOKMARKS: SavedTimeBookmark[] = [
   {
@@ -38,21 +37,6 @@ const DEFAULT_BOOKMARKS: SavedTimeBookmark[] = [
   },
 ];
 
-function getSystemScheme(): 'light' | 'dark' {
-  if (typeof window === 'undefined' || !window.matchMedia) return 'dark';
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
-}
-
-function getStoredScheme(): 'light' | 'dark' | null {
-  try {
-    const val = localStorage.getItem(COLOR_SCHEME_KEY);
-    if (val === 'light' || val === 'dark') return val;
-  } catch {}
-  return null;
-}
-
 export const App: React.FC = () => {
   const [activeDate, setActiveDate] = useState<Date>(() => new Date());
   const [isPlaying, setIsPlaying] = useState(false);
@@ -65,64 +49,6 @@ export const App: React.FC = () => {
   const [selectedEntity, setSelectedEntity] = useState<SelectedEntity>(null);
   const [isTourOpen, setIsTourOpen] = useState(false);
   const [isBookmarkModalOpen, setIsBookmarkModalOpen] = useState(false);
-
-  // Theme state per dark-mode-toggle & dark-mode guides
-  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>(() => {
-    return getStoredScheme() ?? getSystemScheme();
-  });
-
-  const syncMetaAndResolved = useCallback(() => {
-    const stored = getStoredScheme();
-    const meta = document.querySelector('meta[name="color-scheme"]');
-    if (meta) {
-      meta.setAttribute('content', stored ?? 'light dark');
-    }
-    setResolvedTheme(stored ?? getSystemScheme());
-  }, []);
-
-  useEffect(() => {
-    syncMetaAndResolved();
-
-    const mql = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleMediaChange = () => {
-      // Never delete localStorage on OS change; only re-evaluate resolvedTheme
-      setResolvedTheme(getStoredScheme() ?? getSystemScheme());
-    };
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === COLOR_SCHEME_KEY || e.key === null) {
-        syncMetaAndResolved();
-      }
-    };
-
-    mql.addEventListener('change', handleMediaChange);
-    window.addEventListener('storage', handleStorageChange);
-    return () => {
-      mql.removeEventListener('change', handleMediaChange);
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, [syncMetaAndResolved]);
-
-  const handleToggleTheme = useCallback(() => {
-    const currentRendered = getStoredScheme() ?? getSystemScheme();
-    const target: 'light' | 'dark' =
-      currentRendered === 'dark' ? 'light' : 'dark';
-    const systemPref = getSystemScheme();
-
-    try {
-      if (target === systemPref) {
-        // User is undoing override back to system default: remove stored value
-        localStorage.removeItem(COLOR_SCHEME_KEY);
-      } else {
-        localStorage.setItem(COLOR_SCHEME_KEY, target);
-      }
-    } catch {}
-
-    const meta = document.querySelector('meta[name="color-scheme"]');
-    if (meta) {
-      meta.setAttribute('content', target === systemPref ? 'light dark' : target);
-    }
-    setResolvedTheme(target);
-  }, []);
 
   const [bookmarks, setBookmarks] = useState<SavedTimeBookmark[]>(() => {
     try {
@@ -202,7 +128,7 @@ export const App: React.FC = () => {
 
   return (
     <div className="relative w-screen h-screen overflow-hidden flex flex-col justify-between select-none">
-      {/* Enlarged Olam Title Bar with Light/Dark Mode Toggle */}
+      {/* Enlarged Olam Title Bar (Frosted White Semi-Transparent) */}
       <TopTelemetryBar
         cosmic={cosmic}
         hebrewTime={hebrewTime}
@@ -220,8 +146,6 @@ export const App: React.FC = () => {
         onToggleTour={() => setIsTourOpen((o) => !o)}
         bookmarksCount={bookmarks.length}
         onOpenBookmarks={() => setIsBookmarkModalOpen(true)}
-        resolvedTheme={resolvedTheme}
-        onToggleTheme={handleToggleTheme}
       />
 
       {/* Full-Bleed 3D WebGL Cosmic Viewport (Isolated z-0 so 3D HTML labels stay under UI) */}
@@ -234,7 +158,6 @@ export const App: React.FC = () => {
           showCubeOfSpace={showCubeOfSpace}
           showAspects={showAspects}
           showTeli={showTeli}
-          resolvedTheme={resolvedTheme}
           selectedId={selectedId}
           onSelectSefirah={(data) =>
             setSelectedEntity({ kind: 'sefirah', data })

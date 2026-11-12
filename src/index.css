@@ -6,124 +6,22 @@
   --font-hebrew: 'Heebo', 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* Light & Dark raw tokens */
-  --bg-canvas-light: #f3f1ec;
-  --bg-canvas-dark: #06080e;
+  /* Deep Cosmic Space Canvas + Semi-Transparent Frosted White Menus & Flyouts */
+  --bg-canvas: #05070d;
+  --surface-panel: rgba(255, 255, 255, 0.82);
+  --surface-card: rgba(255, 255, 255, 0.68);
+  --surface-pill: rgba(15, 23, 42, 0.055);
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --border-subtle: rgba(15, 23, 42, 0.11);
+  --accent-gold: #9a6b16;
+  --btn-primary-bg: #0f172a;
+  --btn-primary-text: #f8fafc;
+  --scrollbar-track: rgba(226, 232, 240, 0.55);
+  --scrollbar-thumb: #94a3b8;
 
-  --surface-panel-light: rgba(255, 255, 255, 0.90);
-  --surface-panel-dark: rgba(9, 11, 18, 0.88);
-
-  --surface-card-light: rgba(244, 241, 234, 0.78);
-  --surface-card-dark: rgba(255, 255, 255, 0.035);
-
-  --surface-pill-light: rgba(15, 23, 42, 0.055);
-  --surface-pill-dark: rgba(255, 255, 255, 0.05);
-
-  --text-primary-light: #0f172a;
-  --text-primary-dark: #f4f4f5;
-
-  --text-secondary-light: #334155;
-  --text-secondary-dark: #d4d4d8;
-
-  --text-muted-light: #64748b;
-  --text-muted-dark: #94a3b8;
-
-  --border-subtle-light: rgba(15, 23, 42, 0.11);
-  --border-subtle-dark: rgba(255, 255, 255, 0.09);
-
-  --accent-gold-light: #9a6b16;
-  --accent-gold-dark: #e5c687;
-
-  --btn-primary-bg-light: #0f172a;
-  --btn-primary-bg-dark: #f4f4f5;
-
-  --btn-primary-text-light: #f8fafc;
-  --btn-primary-text-dark: #09090b;
-
-  --scrollbar-track-light: #e2e8f0;
-  --scrollbar-track-dark: #111827;
-  --scrollbar-thumb-light: #64748b;
-  --scrollbar-thumb-dark: #6b7280;
-
-  /* Default fallback (light) before prefers-color-scheme or light-dark() */
-  --bg-canvas: var(--bg-canvas-light);
-  --surface-panel: var(--surface-panel-light);
-  --surface-card: var(--surface-card-light);
-  --surface-pill: var(--surface-pill-light);
-  --text-primary: var(--text-primary-light);
-  --text-secondary: var(--text-secondary-light);
-  --text-muted: var(--text-muted-light);
-  --border-subtle: var(--border-subtle-light);
-  --accent-gold: var(--accent-gold-light);
-  --btn-primary-bg: var(--btn-primary-bg-light);
-  --btn-primary-text: var(--btn-primary-text-light);
-  --scrollbar-track: var(--scrollbar-track-light);
-  --scrollbar-thumb: var(--scrollbar-thumb-light);
-
-  @media (prefers-color-scheme: dark) {
-    --bg-canvas: var(--bg-canvas-dark);
-    --surface-panel: var(--surface-panel-dark);
-    --surface-card: var(--surface-card-dark);
-    --surface-pill: var(--surface-pill-dark);
-    --text-primary: var(--text-primary-dark);
-    --text-secondary: var(--text-secondary-dark);
-    --text-muted: var(--text-muted-dark);
-    --border-subtle: var(--border-subtle-dark);
-    --accent-gold: var(--accent-gold-dark);
-    --btn-primary-bg: var(--btn-primary-bg-dark);
-    --btn-primary-text: var(--btn-primary-text-dark);
-    --scrollbar-track: var(--scrollbar-track-dark);
-    --scrollbar-thumb: var(--scrollbar-thumb-dark);
-  }
-
-  @supports (color: light-dark(white, black)) {
-    --bg-canvas: light-dark(var(--bg-canvas-light), var(--bg-canvas-dark));
-    --surface-panel: light-dark(var(--surface-panel-light), var(--surface-panel-dark));
-    --surface-card: light-dark(var(--surface-card-light), var(--surface-card-dark));
-    --surface-pill: light-dark(var(--surface-pill-light), var(--surface-pill-dark));
-    --text-primary: light-dark(var(--text-primary-light), var(--text-primary-dark));
-    --text-secondary: light-dark(var(--text-secondary-light), var(--text-secondary-dark));
-    --text-muted: light-dark(var(--text-muted-light), var(--text-muted-dark));
-    --border-subtle: light-dark(var(--border-subtle-light), var(--border-subtle-dark));
-    --accent-gold: light-dark(var(--accent-gold-light), var(--accent-gold-dark));
-    --btn-primary-bg: light-dark(var(--btn-primary-bg-light), var(--btn-primary-bg-dark));
-    --btn-primary-text: light-dark(var(--btn-primary-text-light), var(--btn-primary-text-dark));
-    --scrollbar-track: light-dark(var(--scrollbar-track-light), var(--scrollbar-track-dark));
-    --scrollbar-thumb: light-dark(var(--scrollbar-thumb-light), var(--scrollbar-thumb-dark));
-  }
-
-  /* MANDATORY: Apply color-scheme to :root and map <meta name="color-scheme"> back to CSS */
-  color-scheme: light dark;
-
-  &:has(> head > meta[name="color-scheme"][content="dark"]) {
-    color-scheme: dark;
-    --bg-canvas: var(--bg-canvas-dark);
-    --surface-panel: var(--surface-panel-dark);
-    --surface-card: var(--surface-card-dark);
-    --surface-pill: var(--surface-pill-dark);
-    --text-primary: var(--text-primary-dark);
-    --text-secondary: var(--text-secondary-dark);
-    --text-muted: var(--text-muted-dark);
-    --border-subtle: var(--border-subtle-dark);
-    --accent-gold: var(--accent-gold-dark);
-    --btn-primary-bg: var(--btn-primary-bg-dark);
-    --btn-primary-text: var(--btn-primary-text-dark);
-  }
-  &:has(> head > meta[name="color-scheme"][content="light"]) {
-    color-scheme: light;
-    --bg-canvas: var(--bg-canvas-light);
-    --surface-panel: var(--surface-panel-light);
-    --surface-card: var(--surface-card-light);
-    --surface-pill: var(--surface-pill-light);
-    --text-primary: var(--text-primary-light);
-    --text-secondary: var(--text-secondary-light);
-    --text-muted: var(--text-muted-light);
-    --border-subtle: var(--border-subtle-light);
-    --accent-gold: var(--accent-gold-light);
-    --btn-primary-bg: var(--btn-primary-bg-light);
-    --btn-primary-text: var(--btn-primary-text-light);
-  }
-
+  color-scheme: light;
   accent-color: var(--accent-gold);
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   scrollbar-width: thin;
