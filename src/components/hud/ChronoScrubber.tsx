@@ -54,7 +54,7 @@ export const ChronoScrubber: React.FC<ChronoScrubberProps> = ({
   )}`;
 
   return (
-    <footer className="mixed-script-container olam-panel pointer-events-auto w-full min-h-[3.5rem] py-2 px-6 backdrop-blur-2xl border-t z-20 flex flex-wrap items-center justify-between gap-3 transition-colors">
+    <footer className="mixed-script-container olam-panel pointer-events-auto w-full min-h-[3.5rem] py-2 px-6 backdrop-blur-2xl border-t z-30 shrink-0 flex flex-wrap items-center justify-between gap-3 transition-colors">
       {/* Left: Transport Controls */}
       <div className="flex items-center gap-1.5 shrink-0">
         <button

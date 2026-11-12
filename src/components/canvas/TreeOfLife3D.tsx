@@ -276,7 +276,7 @@ export const TreeOfLife3D: React.FC<TreeOfLife3DProps> = ({
               position={[0, radius + 0.42, 0]}
               center
               distanceFactor={14}
-              zIndexRange={[10, 0]}
+              zIndexRange={[5, 0]}
             >
               <button
                 type="button"

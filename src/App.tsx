@@ -224,8 +224,8 @@ export const App: React.FC = () => {
         onToggleTheme={handleToggleTheme}
       />
 
-      {/* Full-Bleed 3D WebGL Cosmic Viewport */}
-      <main className="absolute inset-0 z-0">
+      {/* Full-Bleed 3D WebGL Cosmic Viewport (Isolated z-0 so 3D HTML labels stay under UI) */}
+      <main className="absolute inset-0 z-0 isolate">
         <CosmicScene
           cosmic={cosmic}
           hebrewTime={hebrewTime}
@@ -246,23 +246,27 @@ export const App: React.FC = () => {
         />
       </main>
 
-      {/* On-Demand 5-Step Guided Tour */}
-      <MysticalGuideBar
-        isOpen={isTourOpen}
-        onClose={() => setIsTourOpen(false)}
-        onChangeCameraMode={setCameraMode}
-        onToggleCube={setShowCubeOfSpace}
-      />
+      {/* Middle Dock Workspace (bounded strictly between Top Header and Bottom Scrubber so flyouts never overlap menus) */}
+      <div className="relative flex-1 min-h-0 w-full pointer-events-none z-20">
+        {/* Left-Docked Expandable Alpha Wisdom Guide */}
+        <EsotericInspector
+          cosmic={cosmic}
+          hebrewTime={hebrewTime}
+          selected={selectedEntity}
+          pathSystem={pathSystem}
+          isTourOpen={isTourOpen}
+          onSelectEntity={setSelectedEntity}
+          onJumpToDate={setActiveDate}
+        />
 
-      {/* Left-Docked Expandable Alpha Wisdom Guide */}
-      <EsotericInspector
-        cosmic={cosmic}
-        hebrewTime={hebrewTime}
-        selected={selectedEntity}
-        pathSystem={pathSystem}
-        onSelectEntity={setSelectedEntity}
-        onJumpToDate={setActiveDate}
-      />
+        {/* On-Demand 5-Step Guided Tour */}
+        <MysticalGuideBar
+          isOpen={isTourOpen}
+          onClose={() => setIsTourOpen(false)}
+          onChangeCameraMode={setCameraMode}
+          onToggleCube={setShowCubeOfSpace}
+        />
+      </div>
 
       {/* Bottom Scrubber */}
       <ChronoScrubber

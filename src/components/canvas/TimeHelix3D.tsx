@@ -120,6 +120,7 @@ export const TimeHelix3D: React.FC<TimeHelix3DProps> = ({
               position={[pt.moonPos[0], pt.moonPos[1] + 0.55, 0]}
               center
               distanceFactor={16}
+              zIndexRange={[5, 0]}
             >
               <button
                 type="button"

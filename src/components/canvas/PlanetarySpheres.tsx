@@ -309,6 +309,7 @@ export const PlanetarySpheres: React.FC<PlanetarySpheresProps> = ({
                 position={[0, sphereSize + 0.4, 0]}
                 center
                 distanceFactor={16}
+                zIndexRange={[5, 0]}
               >
                 <button
                   type="button"

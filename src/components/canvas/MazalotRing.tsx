@@ -154,7 +154,12 @@ export const MazalotRing: React.FC<MazalotRingProps> = ({
               transparent
               opacity={isActiveMonth ? 0.85 : 0.5}
             />
-            <Html position={labelPos} center distanceFactor={18}>
+            <Html
+              position={labelPos}
+              center
+              distanceFactor={18}
+              zIndexRange={[5, 0]}
+            >
               <button
                 type="button"
                 onClick={(e) => {
@@ -222,7 +227,12 @@ export const MazalotRing: React.FC<MazalotRingProps> = ({
               opacity={isHighlighted ? 0.95 : 0.3}
             />
             {isHighlighted && (
-              <Html position={pos} center distanceFactor={18}>
+              <Html
+                position={pos}
+                center
+                distanceFactor={18}
+                zIndexRange={[5, 0]}
+              >
                 <div
                   className="px-1.5 py-0.5 rounded bg-[#14110b]/95 border border-[#fbbf24] text-center whitespace-nowrap shadow-[0_0_14px_rgba(251,191,36,0.5)]"
                   title={`72 Name #${shem.number} (${shem.translit}): ${shem.kavvanah}`}

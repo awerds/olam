@@ -35,6 +35,7 @@ interface EsotericInspectorProps {
   hebrewTime: HebrewMysticalTime;
   selected: SelectedEntity;
   pathSystem: 'gra' | 'ari';
+  isTourOpen?: boolean;
   onSelectEntity: (entity: SelectedEntity) => void;
   onJumpToDate: (date: Date) => void;
 }
@@ -44,6 +45,7 @@ export const EsotericInspector: React.FC<EsotericInspectorProps> = ({
   hebrewTime,
   selected,
   pathSystem,
+  isTourOpen = false,
   onSelectEntity,
   onJumpToDate,
 }) => {
@@ -52,7 +54,7 @@ export const EsotericInspector: React.FC<EsotericInspectorProps> = ({
 
   if (collapsed) {
     return (
-      <aside className="pointer-events-auto fixed left-3 top-20 z-20">
+      <aside className="pointer-events-auto absolute left-3 top-3 z-20">
         <button
           type="button"
           onClick={() => setCollapsed(false)}
@@ -71,9 +73,13 @@ export const EsotericInspector: React.FC<EsotericInspectorProps> = ({
 
   return (
     <aside
-      className={`mixed-script-container olam-panel pointer-events-auto fixed left-3 top-20 bottom-17 ${
+      className={`mixed-script-container olam-panel pointer-events-auto absolute left-3 top-3 bottom-3 ${
         expanded ? 'w-[48rem]' : 'w-[24.5rem]'
-      } max-w-[94vw] backdrop-blur-2xl border rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.28)] flex flex-col overflow-hidden z-20 transition-[width,background-color] duration-300 ease-out`}
+      } ${
+        isTourOpen
+          ? 'max-w-[calc(100vw-25.5rem)]'
+          : 'max-w-[calc(100vw-1.5rem)]'
+      } backdrop-blur-2xl border rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.28)] flex flex-col overflow-hidden z-20 transition-[width,max-width,background-color] duration-300 ease-out`}
     >
       {/* Clean SaaS Header */}
       <div className="px-4 py-3 border-b border-[var(--border-subtle)] flex items-center justify-between">

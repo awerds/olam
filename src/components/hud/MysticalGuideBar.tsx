@@ -109,8 +109,8 @@ export const MysticalGuideBar: React.FC<MysticalGuideBarProps> = ({
   const activeTour = TOUR_STEPS[tourIndex];
 
   return (
-    <section className="mixed-script-container olam-panel pointer-events-auto fixed right-3 top-20 z-20 w-[23rem] max-w-[92vw] rounded-2xl backdrop-blur-2xl border shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden flex flex-col">
-      <div className="px-4 py-3 border-b border-[var(--border-subtle)] flex items-center justify-between">
+    <section className="mixed-script-container olam-panel pointer-events-auto absolute right-3 top-3 max-h-[calc(100%-1.5rem)] z-30 w-[23rem] max-w-[92vw] rounded-2xl backdrop-blur-2xl border shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden flex flex-col">
+      <div className="px-4 py-3 border-b border-[var(--border-subtle)] flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2">
           <GraduationCap className="w-4 h-4 olam-accent" />
           <h2 className="display-title text-sm font-semibold olam-text-primary">
@@ -127,7 +127,7 @@ export const MysticalGuideBar: React.FC<MysticalGuideBarProps> = ({
         </button>
       </div>
 
-      <div className="p-4 space-y-3.5 text-sm">
+      <div className="p-4 space-y-3.5 text-sm overflow-y-auto">
         <div className="flex items-center justify-between">
           <span className="text-xs font-medium olam-text-muted">
             Step {activeTour.step} of {TOUR_STEPS.length}

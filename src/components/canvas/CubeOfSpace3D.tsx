@@ -103,7 +103,13 @@ export const CubeOfSpace3D: React.FC<CubeOfSpace3DProps> = ({
         { letter: mem, pos: [S * 0.65, 0, 0] as [number, number, number], color: '#88a8c4' },
         { letter: shin, pos: [0, 0, S * 0.65] as [number, number, number], color: '#c98276' },
       ].map(({ letter, pos, color }) => (
-        <Html key={letter.letter} position={pos} center distanceFactor={14}>
+        <Html
+          key={letter.letter}
+          position={pos}
+          center
+          distanceFactor={14}
+          zIndexRange={[5, 0]}
+        >
           <button
             type="button"
             onClick={(e) => {
@@ -141,7 +147,12 @@ export const CubeOfSpace3D: React.FC<CubeOfSpace3DProps> = ({
               opacity={isActive ? 0.95 : 0.42}
             />
             {letter && (
-              <Html position={mid} center distanceFactor={16}>
+              <Html
+                position={mid}
+                center
+                distanceFactor={16}
+                zIndexRange={[5, 0]}
+              >
                 <button
                   type="button"
                   onClick={(e) => {

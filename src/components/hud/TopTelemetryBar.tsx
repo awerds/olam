@@ -62,7 +62,7 @@ export const TopTelemetryBar: React.FC<TopTelemetryBarProps> = ({
   const hourGuide = PLANET_PRACTICAL_GUIDE[currentHour.planet.key];
 
   return (
-    <header className="mixed-script-container olam-panel pointer-events-auto w-full min-h-[4.25rem] py-3 px-6 backdrop-blur-2xl border-b flex flex-wrap items-center justify-between gap-4 z-20 transition-colors">
+    <header className="mixed-script-container olam-panel pointer-events-auto w-full min-h-[4.25rem] py-2.5 px-5 backdrop-blur-2xl border-b flex flex-wrap items-center justify-between gap-3 z-30 shrink-0 transition-colors">
       {/* Left: Prominent Olam Brand + Date & Status Chips */}
       <div className="flex items-center gap-4 min-w-0">
         <div className="flex items-center gap-2.5 border-r border-[var(--border-subtle)] pr-4">
@@ -94,7 +94,7 @@ export const TopTelemetryBar: React.FC<TopTelemetryBarProps> = ({
         </div>
 
         {/* Clean SaaS Status Chips */}
-        <div className="hidden xl:flex items-center gap-2.5 border-l border-[var(--border-subtle)] pl-4 text-xs">
+        <div className="hidden 2xl:flex items-center gap-2.5 border-l border-[var(--border-subtle)] pl-4 text-xs">
           <span className="olam-pill px-3 py-1 rounded-lg border font-medium">
             ☽ {cosmic.lunar.phaseNameEn.split(' (')[0]} •{' '}
             <span className="mono-telemetry olam-text-muted">

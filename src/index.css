@@ -10,8 +10,8 @@
   --bg-canvas-light: #f3f1ec;
   --bg-canvas-dark: #06080e;
 
-  --surface-panel-light: rgba(255, 255, 255, 0.78);
-  --surface-panel-dark: rgba(9, 11, 18, 0.76);
+  --surface-panel-light: rgba(255, 255, 255, 0.90);
+  --surface-panel-dark: rgba(9, 11, 18, 0.88);
 
   --surface-card-light: rgba(244, 241, 234, 0.78);
   --surface-card-dark: rgba(255, 255, 255, 0.035);
