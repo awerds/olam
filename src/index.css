@@ -6,20 +6,20 @@
   --font-hebrew: 'Heebo', 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* Deep Cosmic Space Canvas + Semi-Transparent Frosted White Menus & Flyouts */
+  /* Deep Cosmic Space Canvas + Semi-Transparent Frosted White Glass Menus & Flyouts */
   --bg-canvas: #05070d;
-  --surface-panel: rgba(255, 255, 255, 0.82);
-  --surface-card: rgba(255, 255, 255, 0.68);
-  --surface-pill: rgba(15, 23, 42, 0.055);
-  --text-primary: #0f172a;
-  --text-secondary: #334155;
-  --text-muted: #64748b;
-  --border-subtle: rgba(15, 23, 42, 0.11);
-  --accent-gold: #9a6b16;
+  --surface-panel: rgba(255, 255, 255, 0.56);
+  --surface-card: rgba(255, 255, 255, 0.38);
+  --surface-pill: rgba(255, 255, 255, 0.44);
+  --text-primary: #090d16;
+  --text-secondary: #1e293b;
+  --text-muted: #475569;
+  --border-subtle: rgba(255, 255, 255, 0.46);
+  --accent-gold: #85580a;
   --btn-primary-bg: #0f172a;
   --btn-primary-text: #f8fafc;
-  --scrollbar-track: rgba(226, 232, 240, 0.55);
-  --scrollbar-thumb: #94a3b8;
+  --scrollbar-track: rgba(255, 255, 255, 0.25);
+  --scrollbar-thumb: rgba(71, 85, 105, 0.55);
 
   color-scheme: light;
   accent-color: var(--accent-gold);
@@ -54,23 +54,42 @@ p {
   overflow-wrap: break-word;
 }
 
-/* Theme-adaptive utility classes */
+/* Semi-transparent frosted white glass utility classes */
 .olam-panel {
-  background-color: var(--surface-panel);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.62) 0%,
+    rgba(248, 250, 252, 0.48) 100%
+  );
+  backdrop-filter: blur(22px) saturate(185%);
+  -webkit-backdrop-filter: blur(22px) saturate(185%);
   color: var(--text-primary);
-  border-color: var(--border-subtle);
+  border-color: rgba(255, 255, 255, 0.48);
+  box-shadow:
+    0 16px 48px rgba(4, 6, 14, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.78);
 }
 
 .olam-card {
-  background-color: var(--surface-card);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.42) 0%,
+    rgba(255, 255, 255, 0.28) 100%
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: var(--text-primary);
-  border-color: var(--border-subtle);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.62);
 }
 
 .olam-pill {
-  background-color: var(--surface-pill);
+  background-color: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: var(--text-secondary);
-  border-color: var(--border-subtle);
+  border-color: rgba(15, 23, 42, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
 }
 
 .olam-text-primary {
