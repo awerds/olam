@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ChevronRight,
   ChevronLeft,
+  ChevronDown,
+  ChevronUp,
   Sparkles,
   Sun,
   Moon,
@@ -52,72 +54,106 @@ export const EsotericInspector: React.FC<EsotericInspectorProps> = ({
   const [collapsed, setCollapsed] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
+  const currentHour = hebrewTime.planetaryHours.current;
+  const hourGuide = PLANET_PRACTICAL_GUIDE[currentHour.planet.key];
+  const lunarAdvice = getLunarPracticalAdvice(cosmic.lunar.phaseAngle);
+
+  // Automatically reveal the sheet if the user taps a 3D sphere, letter, or Zodiac sign
+  useEffect(() => {
+    if (selected) {
+      setCollapsed(false);
+    }
+  }, [selected]);
+
   if (collapsed) {
     return (
-      <aside className="pointer-events-auto absolute left-3 top-3 z-20">
+      <aside
+        className={`pointer-events-auto absolute inset-x-2.5 bottom-2.5 md:inset-x-auto md:bottom-auto md:left-3 md:top-3 z-20 ${
+          isTourOpen ? 'max-md:hidden' : ''
+        }`}
+      >
         <button
           type="button"
           onClick={() => setCollapsed(false)}
-          className="olam-panel flex items-center gap-2 px-3.5 py-2 rounded-xl border text-xs font-semibold shadow-lg cursor-pointer backdrop-blur-2xl"
+          className="olam-panel w-full md:w-auto flex items-center justify-between md:justify-start gap-2.5 px-3.5 py-2.5 rounded-xl border text-xs font-semibold cursor-pointer"
         >
-          <span>Daily Wisdom Guide</span>
-          <ChevronRight className="w-4 h-4 olam-text-muted" />
+          <span className="flex items-center gap-2">
+            <Sparkles aria-hidden="true" className="w-3.5 h-3.5 olam-accent" />
+            <span>Daily Wisdom Guide</span>
+          </span>
+          <span className="flex items-center gap-1.5 olam-text-muted mono-telemetry">
+            <span>☽ {Math.round(cosmic.lunar.illumination * 100)}%</span>
+            <span>•</span>
+            <span>{currentHour.planet.english}</span>
+            <ChevronUp
+              aria-hidden="true"
+              className="w-4 h-4 md:hidden olam-text-primary"
+            />
+            <ChevronRight
+              aria-hidden="true"
+              className="w-4 h-4 hidden md:inline olam-text-primary"
+            />
+          </span>
         </button>
       </aside>
     );
   }
 
-  const currentHour = hebrewTime.planetaryHours.current;
-  const hourGuide = PLANET_PRACTICAL_GUIDE[currentHour.planet.key];
-  const lunarAdvice = getLunarPracticalAdvice(cosmic.lunar.phaseAngle);
-
   return (
     <aside
-      className={`mixed-script-container olam-panel pointer-events-auto absolute left-3 top-3 bottom-3 ${
-        expanded ? 'w-[48rem]' : 'w-[24.5rem]'
+      className={`mixed-script-container wisdom-container olam-panel pointer-events-auto absolute inset-x-2.5 bottom-2.5 md:inset-x-auto md:left-3 md:top-3 md:bottom-3 ${
+        expanded
+          ? 'max-h-[75dvh] md:max-h-none md:w-[38rem] lg:w-[48rem]'
+          : 'max-h-[38dvh] md:max-h-none md:w-[21.5rem] lg:w-[24.5rem]'
       } ${
         isTourOpen
-          ? 'max-w-[calc(100vw-25.5rem)]'
-          : 'max-w-[calc(100vw-1.5rem)]'
-      } backdrop-blur-2xl border rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.28)] flex flex-col overflow-hidden z-20 transition-[width,max-width,background-color] duration-300 ease-out`}
+          ? 'max-md:hidden md:max-w-[calc(100dvw-25.5rem)]'
+          : 'md:max-w-[calc(100dvw-1.5rem)]'
+      } border rounded-2xl flex flex-col overflow-hidden z-20 transition-[width,max-width,max-height] duration-300 ease-out`}
     >
-      {/* Clean SaaS Header */}
-      <div className="px-4 py-3 border-b border-[var(--border-subtle)] flex items-center justify-between">
+      {/* Mobile Grab Handle + Clean SaaS Header */}
+      <div className="px-3.5 sm:px-4 py-2.5 border-b border-slate-900/10 flex items-center justify-between gap-2 shrink-0">
         {selected ? (
           <button
             type="button"
             onClick={() => onSelectEntity(null)}
-            className="flex items-center gap-1.5 text-xs font-semibold olam-text-primary hover:underline cursor-pointer"
+            className="flex items-center gap-1.5 text-xs font-semibold olam-text-primary hover:underline cursor-pointer min-w-0"
           >
-            <ArrowLeft className="w-3.5 h-3.5 olam-accent" />
-            <span>Back to Today’s Alignment</span>
+            <ArrowLeft
+              aria-hidden="true"
+              className="w-3.5 h-3.5 olam-accent shrink-0"
+            />
+            <span className="truncate">Back to Today’s Alignment</span>
           </button>
         ) : (
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 olam-accent" />
-            <h2 className="display-title text-sm font-semibold olam-text-primary">
+          <div className="flex items-center gap-2 min-w-0">
+            <Sparkles
+              aria-hidden="true"
+              className="w-4 h-4 olam-accent shrink-0"
+            />
+            <h2 className="display-title text-xs sm:text-sm font-semibold olam-text-primary truncate">
               Daily Wisdom &amp; Cycles
             </h2>
           </div>
         )}
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 shrink-0">
           <button
             type="button"
             onClick={() => setExpanded((prev) => !prev)}
             className="olam-pill flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs font-medium cursor-pointer transition-colors"
             title={
-              expanded ? 'Restore Compact Width' : 'Expand Panel Over Map'
+              expanded ? 'Restore Compact Size' : 'Expand Panel Over Map'
             }
           >
             {expanded ? (
               <>
-                <Minimize2 className="w-3 h-3 olam-accent" />
+                <Minimize2 aria-hidden="true" className="w-3 h-3 olam-accent" />
                 <span>Compact</span>
               </>
             ) : (
               <>
-                <Maximize2 className="w-3 h-3 olam-accent" />
+                <Maximize2 aria-hidden="true" className="w-3 h-3 olam-accent" />
                 <span>Expand</span>
               </>
             )}
@@ -126,36 +162,33 @@ export const EsotericInspector: React.FC<EsotericInspectorProps> = ({
           <button
             type="button"
             onClick={() => setCollapsed(true)}
-            aria-label="Collapse Wisdom Guide"
-            className="p-1.5 rounded-lg olam-text-muted hover:olam-text-primary cursor-pointer"
-            title="Hide Panel"
+            aria-label="Minimize Wisdom Guide to Map View"
+            className="olam-pill px-2 py-1 rounded-lg border olam-text-secondary hover:olam-text-primary flex items-center gap-1 text-xs font-medium cursor-pointer"
+            title="Minimize to Map"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <span className="md:hidden">Map</span>
+            <ChevronDown aria-hidden="true" className="w-3.5 h-3.5 md:hidden" />
+            <ChevronLeft
+              aria-hidden="true"
+              className="w-4 h-4 hidden md:inline"
+            />
           </button>
         </div>
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 text-sm olam-text-secondary">
+      <div className="olam-scroll-area flex-1 p-3.5 sm:p-4 space-y-3.5 text-sm olam-text-secondary">
         {!selected ? (
           <>
             <p className="text-xs olam-text-muted">
               How the Moon, Month, and Hour align right now—and how to use them
-              in daily life. Click any sphere or letter on the 3D map to
-              inspect it.
+              in daily life. Tap any sphere or letter on the 3D map to inspect
+              it.
             </p>
 
-            <div
-              className={`grid gap-3.5 ${
-                expanded ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'
-              }`}
-            >
+            <div className="wisdom-card-grid">
               {/* 1. THE MOON CYCLE */}
-              <div
-                className={`olam-card p-4 rounded-xl border space-y-2.5 ${
-                  expanded ? 'md:col-span-2' : ''
-                }`}
-              >
+              <div className="olam-card wisdom-card-span-2 p-3.5 sm:p-4 rounded-xl border space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-1.5 text-xs font-semibold olam-accent">
                     <Moon className="w-3.5 h-3.5" /> Moon Cycle •{' '}

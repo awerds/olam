@@ -35,32 +35,48 @@ interface CosmicSceneProps {
 }
 
 const CameraRig: React.FC<{ mode: CameraMode }> = ({ mode }) => {
-  const { camera } = useThree();
+  const { camera, size } = useThree();
   const controlsRef = useRef<OrbitControlsImpl>(null);
   const targetPos = useRef(new THREE.Vector3(0, 11, 21));
   const targetLook = useRef(new THREE.Vector3(0, 0, 0));
   const isTransitioning = useRef(false);
 
+  const aspect = size.width / Math.max(1, size.height);
+  const isPhone = size.width < 768;
+  // Pull camera back on portrait phones & iPads so the full 360° Zodiac wheel fits horizontally
+  const aspectMultiplier =
+    aspect < 1.15 ? Math.min(1.62, Math.max(1.06, 1.12 / Math.max(0.46, aspect))) : 1;
+  // Shift look-at target slightly downward on phones so the 3D cosmos centers in the upper viewport above the bottom sheet
+  const yLookOffset = isPhone ? -2.2 : 0;
+
   useEffect(() => {
     isTransitioning.current = true;
     if (mode === 'astrolabe') {
-      targetPos.current.set(0, 11.5, 21.5);
-      targetLook.current.set(0, 0, 0);
+      targetPos.current.set(
+        0,
+        11.5 * aspectMultiplier,
+        21.5 * aspectMultiplier
+      );
+      targetLook.current.set(0, yLookOffset, 0);
     } else if (mode === 'sanctuary') {
-      targetPos.current.set(0, 1.2, 11.2);
-      targetLook.current.set(0, 0.3, 0);
+      targetPos.current.set(0, 1.2, 11.2 * aspectMultiplier);
+      targetLook.current.set(0, 0.3 + yLookOffset * 0.45, 0);
     } else if (mode === 'helix') {
-      targetPos.current.set(13.5, 6.5, 16.5);
-      targetLook.current.set(0, 0, 0);
+      targetPos.current.set(
+        13.5 * aspectMultiplier,
+        6.5 * aspectMultiplier,
+        16.5 * aspectMultiplier
+      );
+      targetLook.current.set(0, yLookOffset * 0.5, 0);
     } else if (mode === 'topdown') {
-      targetPos.current.set(0, 26, 0.01);
-      targetLook.current.set(0, 0, 0);
+      targetPos.current.set(0, 26 * aspectMultiplier, 0.01);
+      targetLook.current.set(0, 0, isPhone ? 2.0 : 0);
     }
     const timer = setTimeout(() => {
       isTransitioning.current = false;
     }, 1100);
     return () => clearTimeout(timer);
-  }, [mode]);
+  }, [mode, aspectMultiplier, yLookOffset, isPhone]);
 
   useFrame((_, delta) => {
     if (isTransitioning.current) {
@@ -80,8 +96,10 @@ const CameraRig: React.FC<{ mode: CameraMode }> = ({ mode }) => {
       ref={controlsRef}
       enableDamping
       dampingFactor={0.04}
+      rotateSpeed={isPhone ? 0.7 : 0.85}
+      zoomSpeed={0.9}
       minDistance={3.5}
-      maxDistance={42}
+      maxDistance={58}
       makeDefault
     />
   );

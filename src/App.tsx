@@ -127,7 +127,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden flex flex-col justify-between select-none">
+    <div className="relative w-full h-dvh overflow-clip flex flex-col justify-between select-none">
       {/* Enlarged Olam Title Bar (Frosted White Semi-Transparent) */}
       <TopTelemetryBar
         cosmic={cosmic}

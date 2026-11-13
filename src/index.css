@@ -25,6 +25,29 @@
   accent-color: var(--accent-gold);
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   scrollbar-width: thin;
+  --target-size: 24px;
+}
+
+@media (pointer: coarse) {
+  :root {
+    --target-size: 44px;
+  }
+}
+
+:where(
+  button,
+  select,
+  textarea,
+  input:not([type="checkbox"], [type="radio"]),
+  [role="button"]
+) {
+  min-block-size: var(--target-size);
+  min-inline-size: var(--target-size);
+}
+
+canvas {
+  display: block;
+  touch-action: none;
 }
 
 body {
@@ -33,6 +56,7 @@ body {
   color: var(--text-primary);
   line-height: 1.5;
   text-align: start;
+  overflow-wrap: anywhere;
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   font-size-adjust: from-font;
 }
@@ -148,6 +172,45 @@ p {
   .mono-telemetry {
     font-size: 0.9em;
     line-height: 1.45;
+  }
+}
+
+/* Safe-area inset & container-query utilities for phones and iPads */
+.safe-top {
+  padding-top: max(0.5rem, env(safe-area-inset-top, 0px));
+  padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
+  padding-right: max(0.75rem, env(safe-area-inset-right, 0px));
+}
+
+.safe-bottom {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+  padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
+  padding-right: max(0.75rem, env(safe-area-inset-right, 0px));
+}
+
+.olam-scroll-area {
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.wisdom-container {
+  container: wisdom-panel / inline-size;
+}
+
+.wisdom-card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+@container wisdom-panel (inline-size > 34rem) {
+  .wisdom-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .wisdom-card-span-2 {
+    grid-column: span 2;
   }
 }
 

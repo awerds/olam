@@ -56,29 +56,31 @@ export const TopTelemetryBar: React.FC<TopTelemetryBarProps> = ({
   const hourGuide = PLANET_PRACTICAL_GUIDE[currentHour.planet.key];
 
   return (
-    <header className="mixed-script-container olam-panel pointer-events-auto w-full min-h-[4.25rem] py-2.5 px-5 backdrop-blur-2xl border-b flex flex-wrap items-center justify-between gap-3 z-30 shrink-0 transition-colors">
+    <header className="mixed-script-container olam-panel safe-top pointer-events-auto w-full py-2 sm:py-2.5 sm:px-5 border-b flex flex-wrap items-center justify-between gap-2 sm:gap-3 z-30 shrink-0 transition-colors">
       {/* Left: Prominent Olam Brand + Date & Status Chips */}
-      <div className="flex items-center gap-4 min-w-0">
-        <div className="flex items-center gap-2.5 border-r border-[var(--border-subtle)] pr-4">
+      <div className="flex items-center gap-2.5 sm:gap-4 min-w-0">
+        <div className="flex items-center gap-2 border-r border-slate-900/10 pr-2.5 sm:pr-4 shrink-0">
           <div className="w-2.5 h-2.5 rounded-full bg-[var(--accent-gold)] shadow-sm" />
-          <div className="flex items-baseline gap-2">
-            <span className="display-title text-lg font-bold tracking-tight olam-text-primary">
+          <div className="flex items-baseline gap-1.5">
+            <span className="display-title text-base sm:text-lg font-bold tracking-tight olam-text-primary">
               Olam
             </span>
-            <span className="hebrew-glyph text-sm olam-accent">עוֹלָם</span>
+            <span className="hebrew-glyph text-xs sm:text-sm olam-accent">
+              עוֹלָם
+            </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2.5 truncate">
-          <span className="text-base font-semibold olam-text-primary">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0 truncate">
+          <span className="text-sm sm:text-base font-semibold olam-text-primary truncate">
             {hebrewTime.hebrewDay} {hebrewTime.hebrewMonthName}{' '}
             {hebrewTime.hebrewYear}
           </span>
-          <span className="hebrew-glyph text-sm olam-text-muted hidden sm:inline">
+          <span className="hebrew-glyph text-xs sm:text-sm olam-text-muted hidden md:inline">
             {hebrewTime.fullHebrewString}
           </span>
-          <span className="olam-text-muted">•</span>
-          <span className="mono-telemetry text-sm olam-text-muted">
+          <span className="olam-text-muted hidden sm:inline">•</span>
+          <span className="mono-telemetry text-xs sm:text-sm olam-text-muted hidden sm:inline">
             {cosmic.date.toLocaleDateString('en-US', {
               month: 'short',
               day: 'numeric',
@@ -88,7 +90,7 @@ export const TopTelemetryBar: React.FC<TopTelemetryBarProps> = ({
         </div>
 
         {/* Clean SaaS Status Chips */}
-        <div className="hidden 2xl:flex items-center gap-2.5 border-l border-[var(--border-subtle)] pl-4 text-xs">
+        <div className="hidden 2xl:flex items-center gap-2.5 border-l border-slate-900/10 pl-4 text-xs">
           <span className="olam-pill px-3 py-1 rounded-lg border font-medium">
             ☽ {cosmic.lunar.phaseNameEn.split(' (')[0]} •{' '}
             <span className="mono-telemetry olam-text-muted">
@@ -104,52 +106,33 @@ export const TopTelemetryBar: React.FC<TopTelemetryBarProps> = ({
         </div>
       </div>
 
-      {/* Center: Segmented SaaS View Switcher */}
-      <div className="olam-pill flex items-center p-1 rounded-xl border">
-        {(
-          [
-            { id: 'astrolabe', label: 'Full Cosmos', icon: Orbit },
-            { id: 'sanctuary', label: 'Tree of Life', icon: Sparkles },
-            { id: 'helix', label: 'Time Spiral', icon: Compass },
-            { id: 'topdown', label: 'Zodiac Wheel', icon: Eye },
-          ] as const
-        ).map(({ id, label, icon: Icon }) => (
-          <button
-            key={id}
-            type="button"
-            onClick={() => onCameraModeChange(id)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-              cameraMode === id
-                ? 'olam-btn-primary shadow-sm'
-                : 'olam-text-muted hover:olam-text-primary'
-            }`}
-          >
-            <Icon className="w-3.5 h-3.5" />
-            <span className="hidden md:inline">{label}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* Right: Actions, Theme Toggle & Popover Settings */}
-      <div className="flex items-center gap-2.5">
+      {/* Right: Actions & Popover Settings */}
+      <div className="flex items-center gap-1.5 sm:gap-2 lg:order-3">
         <button
           type="button"
           onClick={onToggleTour}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer border ${
+          aria-label="Learn the Cycles Interactive Guide"
+          className={`flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer border ${
             isTourOpen ? 'olam-btn-primary border-transparent' : 'olam-pill'
           }`}
         >
-          <GraduationCap className="w-4 h-4 olam-accent" />
-          <span>Learn the Cycles</span>
+          <GraduationCap
+            aria-hidden="true"
+            className={`w-4 h-4 ${isTourOpen ? 'text-amber-300' : 'olam-accent'}`}
+          />
+          <span className="hidden md:inline">Learn the Cycles</span>
+          <span className="md:hidden">Guide</span>
         </button>
 
         <button
           type="button"
           onClick={onOpenBookmarks}
-          className="olam-pill flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all cursor-pointer"
+          aria-label={`Saved Cosmic Moments (${bookmarksCount})`}
+          className="olam-pill flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all cursor-pointer"
         >
-          <Bookmark className="w-3.5 h-3.5 olam-accent" />
+          <Bookmark aria-hidden="true" className="w-3.5 h-3.5 olam-accent" />
           <span className="hidden sm:inline">Saved ({bookmarksCount})</span>
+          <span className="sm:hidden mono-telemetry">{bookmarksCount}</span>
         </button>
 
         <Popover.Root>
@@ -157,9 +140,12 @@ export const TopTelemetryBar: React.FC<TopTelemetryBarProps> = ({
             <button
               type="button"
               aria-label="3D Layers and Mystical Settings"
-              className="olam-pill flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-semibold cursor-pointer"
+              className="olam-pill flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl border text-xs font-semibold cursor-pointer"
             >
-              <SlidersHorizontal className="w-3.5 h-3.5 olam-accent" />
+              <SlidersHorizontal
+                aria-hidden="true"
+                className="w-3.5 h-3.5 olam-accent"
+              />
               <span className="hidden sm:inline">Layers</span>
             </button>
           </Popover.Trigger>
@@ -167,46 +153,47 @@ export const TopTelemetryBar: React.FC<TopTelemetryBarProps> = ({
             <Popover.Content
               align="end"
               sideOffset={8}
-              className="mixed-script-container olam-panel z-50 w-64 rounded-2xl backdrop-blur-2xl border p-4 shadow-2xl space-y-3 text-xs"
+              collisionPadding={12}
+              className="mixed-script-container olam-panel z-50 w-64 max-w-[calc(100dvw-1.5rem)] rounded-2xl border p-4 space-y-3 text-xs"
             >
               <div className="text-xs font-semibold olam-text-muted">
                 3D Geometry Overlays
               </div>
 
-              <label className="flex items-center justify-between cursor-pointer">
+              <label className="flex items-center justify-between cursor-pointer py-0.5">
                 <span>Cube of Space (22 Letters)</span>
                 <Switch.Root
                   checked={showCubeOfSpace}
                   onCheckedChange={onToggleCube}
-                  className="w-8 h-4 bg-slate-500/30 rounded-full relative data-[state=checked]:bg-[var(--accent-gold)] cursor-pointer"
+                  className="w-9 h-5 bg-slate-500/30 rounded-full relative data-[state=checked]:bg-[var(--accent-gold)] cursor-pointer shrink-0"
                 >
-                  <Switch.Thumb className="block w-3 h-3 bg-white rounded-full transition-transform translate-x-0.5 data-[state=checked]:translate-x-4" />
+                  <Switch.Thumb className="block w-4 h-4 bg-white rounded-full transition-transform translate-x-0.5 data-[state=checked]:translate-x-4" />
                 </Switch.Root>
               </label>
 
-              <label className="flex items-center justify-between cursor-pointer">
+              <label className="flex items-center justify-between cursor-pointer py-0.5">
                 <span>Planetary Aspect Lines</span>
                 <Switch.Root
                   checked={showAspects}
                   onCheckedChange={onToggleAspects}
-                  className="w-8 h-4 bg-slate-500/30 rounded-full relative data-[state=checked]:bg-[var(--accent-gold)] cursor-pointer"
+                  className="w-9 h-5 bg-slate-500/30 rounded-full relative data-[state=checked]:bg-[var(--accent-gold)] cursor-pointer shrink-0"
                 >
-                  <Switch.Thumb className="block w-3 h-3 bg-white rounded-full transition-transform translate-x-0.5 data-[state=checked]:translate-x-4" />
+                  <Switch.Thumb className="block w-4 h-4 bg-white rounded-full transition-transform translate-x-0.5 data-[state=checked]:translate-x-4" />
                 </Switch.Root>
               </label>
 
-              <label className="flex items-center justify-between cursor-pointer">
+              <label className="flex items-center justify-between cursor-pointer py-0.5">
                 <span>Eclipse Nodes (Teli Axis)</span>
                 <Switch.Root
                   checked={showTeli}
                   onCheckedChange={onToggleTeli}
-                  className="w-8 h-4 bg-slate-500/30 rounded-full relative data-[state=checked]:bg-[var(--accent-gold)] cursor-pointer"
+                  className="w-9 h-5 bg-slate-500/30 rounded-full relative data-[state=checked]:bg-[var(--accent-gold)] cursor-pointer shrink-0"
                 >
-                  <Switch.Thumb className="block w-3 h-3 bg-white rounded-full transition-transform translate-x-0.5 data-[state=checked]:translate-x-4" />
+                  <Switch.Thumb className="block w-4 h-4 bg-white rounded-full transition-transform translate-x-0.5 data-[state=checked]:translate-x-4" />
                 </Switch.Root>
               </label>
 
-              <div className="pt-2.5 border-t border-[var(--border-subtle)] space-y-2">
+              <div className="pt-2.5 border-t border-slate-900/10 space-y-2">
                 <div className="text-xs font-semibold olam-text-muted">
                   Tree of Life Path Tradition
                 </div>
@@ -239,6 +226,56 @@ export const TopTelemetryBar: React.FC<TopTelemetryBarProps> = ({
           </Popover.Portal>
         </Popover.Root>
       </div>
+
+      {/* Center / Full-Width Mobile Strip: Segmented SaaS View Switcher */}
+      <nav
+        aria-label="3D View Mode"
+        className="olam-pill w-full lg:w-auto lg:order-2 grid grid-cols-4 lg:flex items-center p-1 rounded-xl border gap-1"
+      >
+        {(
+          [
+            {
+              id: 'astrolabe',
+              label: 'Full Cosmos',
+              shortLabel: 'Cosmos',
+              icon: Orbit,
+            },
+            {
+              id: 'sanctuary',
+              label: 'Tree of Life',
+              shortLabel: 'Tree',
+              icon: Sparkles,
+            },
+            {
+              id: 'helix',
+              label: 'Time Spiral',
+              shortLabel: 'Spiral',
+              icon: Compass,
+            },
+            {
+              id: 'topdown',
+              label: 'Zodiac Wheel',
+              shortLabel: 'Zodiac',
+              icon: Eye,
+            },
+          ] as const
+        ).map(({ id, label, shortLabel, icon: Icon }) => (
+          <button
+            key={id}
+            type="button"
+            onClick={() => onCameraModeChange(id)}
+            className={`flex items-center justify-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+              cameraMode === id
+                ? 'olam-btn-primary shadow-sm'
+                : 'olam-text-secondary hover:olam-text-primary'
+            }`}
+          >
+            <Icon aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
+            <span className="hidden sm:inline">{label}</span>
+            <span className="sm:hidden">{shortLabel}</span>
+          </button>
+        ))}
+      </nav>
     </header>
   );
 };
